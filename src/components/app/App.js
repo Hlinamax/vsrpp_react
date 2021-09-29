@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Table from '@material-ui/core/Table';
 import { makeStyles } from '@material-ui/core/styles';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +36,7 @@ function App() {
         { inputFields.map((inputField, index) => (
           <div key={index}>
               <TextField 
-                name="fistName"
+                name="firstName"
                 label="Имя"
                 variant="filled"
                 value={inputField.firstName} 
