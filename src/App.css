@@ -13,8 +13,13 @@
   }
 }
 
+.box {
+  display: flex;
+  flex-direction: row;
+}
+
 .App-header {
-  background-color: #FFFFFF;
+  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
