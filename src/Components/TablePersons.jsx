@@ -21,7 +21,7 @@ function TablePersons({persons, deletePerson}) {
                             <td className="text-center">{person.name}</td>
                             <td className="text-center">{person.surname}</td>
                             <td className="text-center">{person.email}</td>
-                            <td className="text-center"><button className="btn btn-outline-danger" onClick={() => deletePerson(person)}>&#128711;</button></td>
+                            <td className="text-center"><button className="btn btn-outline-danger" onClick={() => deletePerson(person.id)}>&#128711;</button></td>
                         </tr>
                     })
                 }

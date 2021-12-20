@@ -1,79 +1,70 @@
+import { Container } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import { data } from '../store/user-data';
+import { Pagination } from './Pagination';
 import PersonForm from './PersonForm';
 import TablePersons from './TablePersons';
 
-function CustomDataList() {
 
-  const [ persons, setPersons] = useState();
-  const [ name, setName] = useState();
-  const [ surname, setSurname] = useState();
-  const [ email, setEmail] = useState();
-  const [ update, setUpdate ] = useState();
+function CustomDataList() {
+  const [users, setUsers] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage, setUsersPerPage] = useState(3);
+
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const showUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const [newUser, setNewUser] = useState({
+    name: '',
+    surname: '',
+    email: '',
+  })
+
+  const handleAddingNewUser = (e) => {
+    setNewUser({
+      ...newUser,
+      [e.target.name]: e.target.value,
+    });
+  }
 
   useEffect(() => {
-    if(persons === undefined)
-    { 
-      setPersons([
-          {
-              id: 1,
-              name: "Максим",
-              surname: "Кулеш",
-              email: "hlinamaxim@gmail.com"
-              
-          },
-          {
-            id: 2,
-            name: "Алексей",
-            surname: "Горнак",
-            email: "gornyak27@gmail.com"
-          }
-        ]);
-    }
-  }, [persons]);
+    setUsers(data);
+  }, []);
 
-  const deletePerson = (person) => {
-    let index = persons.indexOf(person);
-    console.log(index);
-    if(index > -1) persons.splice(index, 1);
-    setUpdate(!update);
+  const addNewUser = () => {
+    setUsers((prevUsers) => [...prevUsers, { ...newUser, id: prevUsers.length + 1}]);
+    setNewUser({
+      name: '',
+      surname: '',
+      email: '',
+    })
   }
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  }
-
-  const handleSurnameChange = (e) => {
-    setSurname(e.target.value);
-  }
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  }
-
-  const addPerson = () => {
-      console.log({
-        id: persons[persons.length - 1].id + 1,
-        name: name,
-        surname: surname,
-        email: email
-    });
-    persons.push({
-        id: persons[persons.length - 1].id + 1,
-        name: name,
-        surname: surname,
-        email: email
-    });
-    setUpdate(!update);
+  const deleteUser = (personId) => {
+    const currentUsers = users.filter(({ id }) => id !== personId);
+    setUsers(currentUsers);
   }
 
   return (
     <div className="col-12 row">
       <div className="col-10 row mx-auto">
         <div className="col-12 row mx-auto">
-          <PersonForm setName={handleNameChange} setSurname={handleSurnameChange} setEmail={handleEmailChange} addPerson={addPerson}/>
+          <PersonForm  handleAddingNewUser={handleAddingNewUser} addPerson={addNewUser} newUser={newUser}/>
         </div>
-        <TablePersons persons={persons} deletePerson={deletePerson}/>
+        <TablePersons persons={showUsers} deletePerson={deleteUser}/>
       </div>
+      <Container>
+      <Pagination
+        usersPerPage={usersPerPage}
+        totalUsers={users.length}
+        paginate={paginate}
+      />
+      </Container>
     </div>
   );
 }
