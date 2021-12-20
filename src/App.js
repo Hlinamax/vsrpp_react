@@ -10,6 +10,7 @@ import {
 
 import './App.css';
 import CustomDataList from './Components/CustomDataList';
+import DataListFromSource from './Components/DataListFromSource';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
 import userLogin from './store/actionCreators/userLogin';
@@ -49,6 +50,9 @@ function App({ history, userName, loginUser, updateUsers, users }) {
                 <li className="nav-item">
                   <Link className="nav-link" to="/customDataList"><h5>Список</h5></Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dataListFromSource"><h5>Заполнение из API</h5></Link>
+                </li>
                 <span className="navbar-text"><h5>Добро пожаловать, {userName}!</h5></span>
                 <li className="nav-item">
                   <Link className="nav-link" to="/LoginForm"><h5>Выход</h5></Link>
@@ -63,6 +67,7 @@ function App({ history, userName, loginUser, updateUsers, users }) {
               <LoginForm loginUser={tryLoginUser} setUserName={(userName) => loginUser(userName)}/>
             </Route>
             <Route path='/customDataList' component={CustomDataList} />
+            <Route path='/dataListFromSource' component={DataListFromSource} />
             <Route path='/register' component={RegisterForm} />
             <Redirect form='/' to='/login' />
           </Switch>
